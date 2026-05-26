@@ -104,7 +104,7 @@ public class ListExercise extends Exercise {
         boolean removed = list.remove((Object) element);
         System.out.println(removed ? "Elemento removido." : "Elemento no encontrado.");
         System.out.println("Lista: " + listToString());
-        currentPhase = askRepeat() ? 3 : 0; //* */
+        currentPhase = askRepeat() ? 3 : 0; 
     }
 
     private void clearList() {
