@@ -5,7 +5,7 @@ public class AgendaContactos {
     private BinarySearchTree<Contacto> contactos;
 
     public AgendaContactos() {
-        contactos = new BinarySearchTree<>();
+        contactos = new AVL<>();
     }
 
     public void agregarContacto(String nombre, String telefono, String mail) {

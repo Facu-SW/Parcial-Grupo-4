@@ -2,17 +2,19 @@ package BTSExercise;
 
 public class BinarySearchTree<E extends Comparable<E>> {
 
-    private class Node {
+    protected class Node {
         E data;
         Node left;
         Node right;
+        int height;
 
         Node(E data) {
             this.data = data;
+            this.height = 1;
         }
     }
 
-    private Node root;
+    protected Node root;
 
     public void insert(E value) {
         if (value == null) {
@@ -22,7 +24,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         root = insertRecursive(root, value);
     }
 
-    private Node insertRecursive(Node current, E value) {
+    protected Node insertRecursive(Node current, E value) {
 
         if (current == null) {
             return new Node(value);
@@ -99,7 +101,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         root = removeRecursive(root, value);
     }
 
-    private Node removeRecursive(Node current, E value) {
+    protected Node removeRecursive(Node current, E value) {
 
         if (current == null) {
             return null;
@@ -135,7 +137,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return current;
     }
 
-    private E findMin(Node current) {
+    protected E findMin(Node current) {
 
         while (current.left != null) {
             current = current.left;
@@ -155,9 +157,8 @@ public class BinarySearchTree<E extends Comparable<E>> {
         }
 
         inOrderRecursive(current.left);
-        inOrderRecursive(current.right);
-
         System.out.println(current.data);
-}
+        inOrderRecursive(current.right);
+    }
 }
 
