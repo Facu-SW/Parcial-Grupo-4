@@ -4,10 +4,12 @@ public class ContactBook {
 
     private BinarySearchTree<Contact> contacts;
 
+    // inicializa la agenda usando un arbol AVL.
     public ContactBook() {
         contacts = new AVL<>();
     }
 
+    // agrega un contacto nuevo al arbol.
     public void addContact(String name, String phone, String email) {
 
         Contact contact = new Contact(name, phone, email);
@@ -15,6 +17,7 @@ public class ContactBook {
         contacts.insert(contact);
     }
 
+    // busca un contacto por nombre.
     public Contact searchContact(String name) {
 
         Contact searched = new Contact(name, "", "");
@@ -22,6 +25,7 @@ public class ContactBook {
         return contacts.search(searched);
     }
 
+    // elimina un contacto por nombre.
     public void deleteContact(String name) {
 
         Contact contact = new Contact(name, "", "");
@@ -29,10 +33,12 @@ public class ContactBook {
         contacts.remove(contact);
     }
 
+    // muestra todos los contactos en orden alfabetico.
     public void displayContacts() {
         contacts.inOrder();
     }
 
+    // edita telefono y email de un contacto existente
     public void editContact(String name, String newPhone, String newEmail) {
 
         Contact contact = searchContact(name);
@@ -43,6 +49,7 @@ public class ContactBook {
         }
     }
 
+    // carga contactos de ejemplo para pruebas rapidas
     public void loadTestData() {
 
         addContact("Juan", "1111-1111", "juan@gmail.com");

@@ -2,6 +2,7 @@ package BTSExercise;
 
 public class AVL<E extends Comparable<E>> extends BinarySearchTree<E> {
 
+    // devuelve la altura de un nodo o 0 si es null.
     private int height(Node node) {
         if (node == null) {
             return 0;
@@ -9,6 +10,7 @@ public class AVL<E extends Comparable<E>> extends BinarySearchTree<E> {
         return node.height;
     }
 
+    // calcula el factor de balance de un nodo.
     private int getBalance(Node node) {
         if (node == null) {
             return 0;
@@ -16,10 +18,12 @@ public class AVL<E extends Comparable<E>> extends BinarySearchTree<E> {
         return height(node.left) - height(node.right);
     }
 
+    // actualiza la altura de un nodo segun sus hijos.
     private void updateHeight(Node node) {
         node.height = 1 + Math.max(height(node.left), height(node.right));
     }
 
+    // realiza una rotacion simple a la derecha.
     private Node rotateRight(Node y) {
         Node x = y.left;
         Node T2 = x.right;
@@ -33,6 +37,7 @@ public class AVL<E extends Comparable<E>> extends BinarySearchTree<E> {
         return x;
     }
 
+    // realiza una rotacion simple a la izquierda.
     private Node rotateLeft(Node x) {
         Node y = x.right;
         Node T2 = y.left;
@@ -46,6 +51,7 @@ public class AVL<E extends Comparable<E>> extends BinarySearchTree<E> {
         return y;
     }
 
+    // rebalancea el nodo segun su factor de balance.
     private Node balance(Node node) {
         updateHeight(node);
 
@@ -72,6 +78,7 @@ public class AVL<E extends Comparable<E>> extends BinarySearchTree<E> {
         return node;
     }
 
+    // inserta en AVL y rebalancea al volver de la recursion.
     @Override
     protected Node insertRecursive(Node current, E value) {
 
@@ -94,6 +101,7 @@ public class AVL<E extends Comparable<E>> extends BinarySearchTree<E> {
         return balance(current);
     }
 
+    // elimina en AVL y rebalancea al volver de la recursion.
     @Override
     protected Node removeRecursive(Node current, E value) {
 

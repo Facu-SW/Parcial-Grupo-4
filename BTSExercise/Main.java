@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Main {
 
+    // lee un nombre y valida que no este vacio ni tenga numeros.
     private static String readValidName(Scanner scanner, String message) {
 
         while (true) {
@@ -33,6 +34,7 @@ public class Main {
         }
     }
 
+    // lee un telefono y valida formato basico permitido.
     private static String readValidPhone(Scanner scanner, String message) {
 
         while (true) {
@@ -68,6 +70,7 @@ public class Main {
         }
     }
 
+    // lee un email y valida que tenga un solo @ en posicion valida.
     private static String readValidEmail(Scanner scanner, String message) {
 
         while (true) {
@@ -99,6 +102,7 @@ public class Main {
         }
     }
 
+    // menu principal de la agenda de contactos
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
