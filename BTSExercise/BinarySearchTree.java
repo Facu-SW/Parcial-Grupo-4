@@ -2,18 +2,22 @@ package BTSExercise;
 
 public class BinarySearchTree<E extends Comparable<E>> {
 
-    private class Node {
+    protected class Node {
         E data;
         Node left;
         Node right;
+        int height;
 
+        // crea un nodo nuevo con altura inicial 1.
         Node(E data) {
             this.data = data;
+            this.height = 1;
         }
     }
 
-    private Node root;
+    protected Node root;
 
+    // inserta un valor en el arbol.
     public void insert(E value) {
         if (value == null) {
             throw new IllegalArgumentException("Valor nulo");
@@ -22,7 +26,8 @@ public class BinarySearchTree<E extends Comparable<E>> {
         root = insertRecursive(root, value);
     }
 
-    private Node insertRecursive(Node current, E value) {
+    // inserta recursivamente en la posicion correcta.
+    protected Node insertRecursive(Node current, E value) {
 
         if (current == null) {
             return new Node(value);
@@ -43,10 +48,12 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return current;
     }
 
+    // verifica si un valor existe en el arbol.
     public boolean contains(E value) {
         return containsRecursive(root, value);
     }
 
+    // busca recursivamente un valor en el arbol.
     private boolean containsRecursive(Node current, E value) {
 
         if (current == null) {
@@ -66,6 +73,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return containsRecursive(current.right, value);
     }
 
+    // busca y devuelve el valor almacenado en el arbol.
     public E search(E value) {
         Node result = searchRecursive(root, value);
 
@@ -76,6 +84,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return result.data;
     }
 
+    // busca recursivamente el nodo que contiene el valor.
     private Node searchRecursive(Node current, E value) {
 
         if (current == null) {
@@ -95,11 +104,13 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return searchRecursive(current.right, value);
     }
 
+    // elimina un valor del arbol.
     public void remove(E value) {
         root = removeRecursive(root, value);
     }
 
-    private Node removeRecursive(Node current, E value) {
+    // elimina recursivamente un nodo y reacomoda enlaces.
+    protected Node removeRecursive(Node current, E value) {
 
         if (current == null) {
             return null;
@@ -135,7 +146,8 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return current;
     }
 
-    private E findMin(Node current) {
+    // obtiene el valor minimo de un subarbol
+    protected E findMin(Node current) {
 
         while (current.left != null) {
             current = current.left;
@@ -144,10 +156,12 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return current.data;
     }
 
+    // recorre el arbol en in-order e imprime los elementos
     public void inOrder() {
         inOrderRecursive(root);
     }
 
+    // recorrido in-order recursivo
     private void inOrderRecursive(Node current) {
 
         if (current == null) {
@@ -155,9 +169,8 @@ public class BinarySearchTree<E extends Comparable<E>> {
         }
 
         inOrderRecursive(current.left);
-        inOrderRecursive(current.right);
-
         System.out.println(current.data);
-}
+        inOrderRecursive(current.right);
+    }
 }
 

@@ -4,13 +4,112 @@ import java.util.Scanner;
 
 public class Main {
 
+    // lee un nombre y valida que no este vacio ni tenga numeros.
+    private static String readValidName(Scanner scanner, String message) {
+
+        while (true) {
+            System.out.print(message);
+            String name = scanner.nextLine().trim();
+
+            if (name.isEmpty()) {
+                System.out.println("El nombre no puede estar vacio");
+                continue;
+            }
+
+            boolean hasNumber = false;
+
+            for (int i = 0; i < name.length(); i++) {
+                if (Character.isDigit(name.charAt(i))) {
+                    hasNumber = true;
+                    break;
+                }
+            }
+
+            if (hasNumber) {
+                System.out.println("El nombre no puede contener numeros");
+                continue;
+            }
+
+            return name;
+        }
+    }
+
+    // lee un telefono y valida formato basico permitido.
+    private static String readValidPhone(Scanner scanner, String message) {
+
+        while (true) {
+            System.out.print(message);
+            String phone = scanner.nextLine().trim();
+
+            if (phone.isEmpty()) {
+                System.out.println("El telefono no puede estar vacio");
+                continue;
+            }
+
+            boolean hasDigit = false;
+            boolean validFormat = true;
+
+            for (int i = 0; i < phone.length(); i++) {
+                char c = phone.charAt(i);
+
+                if (Character.isDigit(c)) {
+                    hasDigit = true;
+                }
+                else if (c != ' ' && c != '+' && c != '-' && c != '(' && c != ')') {
+                    validFormat = false;
+                    break;
+                }
+            }
+
+            if (!validFormat || !hasDigit) {
+                System.out.println("El telefono solo puede contener numeros y simbolos basicos (+ - ( ))");
+                continue;
+            }
+
+            return phone;
+        }
+    }
+
+    // lee un email y valida que tenga un solo @ en posicion valida.
+    private static String readValidEmail(Scanner scanner, String message) {
+
+        while (true) {
+            System.out.print(message);
+            String email = scanner.nextLine().trim();
+
+            if (email.isEmpty()) {
+                System.out.println("El mail no puede estar vacio");
+                continue;
+            }
+
+            int atSymbolCount = 0;
+
+            for (int i = 0; i < email.length(); i++) {
+                if (email.charAt(i) == '@') {
+                    atSymbolCount++;
+                }
+            }
+
+            boolean atSymbolAtStart = email.charAt(0) == '@';
+            boolean atSymbolAtEnd = email.charAt(email.length() - 1) == '@';
+
+            if (atSymbolCount != 1 || atSymbolAtStart || atSymbolAtEnd) {
+                System.out.println("El mail debe contener un @ valido");
+                continue;
+            }
+
+            return email;
+        }
+    }
+
+    // menu principal de la agenda de contactos
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
-        AgendaContactos agenda = new AgendaContactos();
+        ContactBook contactBook = new ContactBook();
 
-        int opcion;
+        int option;
 
         do {
 
@@ -30,24 +129,19 @@ public class Main {
                 scanner.next();
             }
 
-            opcion = scanner.nextInt();
+            option = scanner.nextInt();
             scanner.nextLine();
 
-            switch (opcion) {
+            switch (option) {
 
                 case 1:
 
-                    System.out.print("Nombre: ");
-                    String nombre = scanner.nextLine();
-
-                    System.out.print("Telefono: ");
-                    String telefono = scanner.nextLine();
-
-                    System.out.print("Mail: ");
-                    String mail = scanner.nextLine();
+                    String name = readValidName(scanner, "Nombre: ");
+                    String phone = readValidPhone(scanner, "Telefono: ");
+                    String email = readValidEmail(scanner, "Mail: ");
 
                     try {
-                        agenda.agregarContacto(nombre, telefono, mail);
+                        contactBook.addContact(name, phone, email);
                         System.out.println("Contacto agregado");
                     }
                     catch (Exception e) {
@@ -59,12 +153,12 @@ public class Main {
                 case 2:
 
                     System.out.print("Nombre a buscar: ");
-                    String buscar = scanner.nextLine();
+                    String search = scanner.nextLine();
 
-                    Contacto encontrado = agenda.buscarContacto(buscar);
+                    Contact found = contactBook.searchContact(search);
 
-                    if (encontrado != null) {
-                        System.out.println(encontrado);
+                    if (found != null) {
+                        System.out.println(found);
                     }
                     else {
                         System.out.println("Contacto no encontrado");
@@ -74,16 +168,11 @@ public class Main {
 
                 case 3:
 
-                    System.out.print("Nombre del contacto: ");
-                    String editar = scanner.nextLine();
+                    String edit = readValidName(scanner, "Nombre del contacto: ");
+                    String newPhone = readValidPhone(scanner, "Nuevo telefono: ");
+                    String newEmail = readValidEmail(scanner, "Nuevo mail: ");
 
-                    System.out.print("Nuevo telefono: ");
-                    String nuevoTelefono = scanner.nextLine();
-
-                    System.out.print("Nuevo mail: ");
-                    String nuevoMail = scanner.nextLine();
-
-                    agenda.editarContacto(editar, nuevoTelefono, nuevoMail);
+                    contactBook.editContact(edit, newPhone, newEmail);
 
                     System.out.println("Contacto editado");
 
@@ -92,9 +181,9 @@ public class Main {
                 case 4:
 
                     System.out.print("Nombre a eliminar: ");
-                    String eliminar = scanner.nextLine();
+                    String delete = scanner.nextLine();
 
-                    agenda.eliminarContacto(eliminar);
+                    contactBook.deleteContact(delete);
 
                     System.out.println("Contacto eliminado");
 
@@ -104,13 +193,13 @@ public class Main {
 
                     System.out.println();
                     System.out.println("===== CONTACTOS =====");
-                    agenda.mostrarContactos();
+                    contactBook.displayContacts();
 
                     break;
 
                 case 6:
 
-                    agenda.cargarDatosPrueba();
+                    contactBook.loadTestData();
 
                     System.out.println("Datos cargados");
 
@@ -127,7 +216,7 @@ public class Main {
                     System.out.println("Opcion invalida");
             }
 
-        } while (opcion != 0);
+        } while (option != 0);
 
         scanner.close();
     }
