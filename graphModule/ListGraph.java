@@ -1,7 +1,7 @@
 package graphModule;
 
-import list.SimpleList;
-import list.SimpleLinkedList;
+import listModule.SimpleList;
+import listModule.SimpleLinkedList;
 import dictionaryModule.SimpleDictionary;
 import dictionaryModule.SimpleArrayDictionary;
 
