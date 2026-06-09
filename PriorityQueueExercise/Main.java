@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+import priorityQueueModule.PriorityQueue;
+import priorityQueueModule.PriorityQueueLinked;
+
 public class Main {
 
     public static void main(String[] args) {
