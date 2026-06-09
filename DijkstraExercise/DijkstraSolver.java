@@ -17,15 +17,9 @@ public class DijkstraSolver {
      * y el value es un Edge<T> que almacena el nodo previo (destination) y el costo total (weight).
      * Para el nodo inicial, el previo es null y el costo es 0.
      */
-    public static <T> SimpleDictionary<T, Edge<T>> dijkstra(T start, Graph<T> graph) {
+    public static <T> SimpleDictionary<T, Edge<T>> dijkstraAllNodes(T origin, Graph<T> graph) {
         // Inicializar el diccionario de resultados
         SimpleDictionary<T, Edge<T>> result = new SimpleArrayDictionary<>();
-
-        // Cola de prioridad para nodos no visitados
-        PriorityQueueLinked<T> unvisited = new PriorityQueueLinked<>();
-
-        // Set de nodos visitados
-        SimpleSet<T> visited = new SimpleArraySet<>();
 
         // Obtener todos los vertices del grafo
         SimpleList<T> vertices = graph.vertex();
@@ -34,15 +28,21 @@ public class DijkstraSolver {
         // Para el nodo inicial: distancia 0, previo null
         // Para los demás: distancia infinita (Integer.MAX_VALUE), previo null
         for (int i = 0; i < vertices.size(); i++) {
-            if (vertices.get(i).equals(start)) {
+            if (vertices.get(i).equals(origin)) {
                 result.put(vertices.get(i), new Edge<T>(vertices.get(i), 0));
             } else {
                 result.put(vertices.get(i), new Edge<T>(vertices.get(i), Integer.MAX_VALUE));
             }
         }
 
+        // Cola de prioridad para nodos no visitados
+        PriorityQueueLinked<T> unvisited = new PriorityQueueLinked<>();
+
+        // Set de nodos visitados
+        SimpleSet<T> visited = new SimpleArraySet<>();        
+
         // Encolar el nodo inicial con prioridad 0
-        unvisited.enqueue(start, 0);
+        unvisited.enqueue(origin, 0);
 
         // Bucle principal
         while (!unvisited.isEmpty()) {
@@ -52,15 +52,14 @@ public class DijkstraSolver {
             // Si ya fue visitado, lo saltamos
             if (visited.contains(current)) continue;
 
-            // Paso 4: Marcar como visitado
-            visited.add(current);
-
             // Obtener el costo total del nodo actual
             int currentCost = result.get(current).weight;
 
             // Paso 3: Actualizar valores de los vecinos usando getNeighbors
             SimpleList<Edge<T>> neighbors = graph.getNeighbors(current);
-            for (int i = 0; i < neighbors.size(); i++) {
+            int neighborsCount = neighbors.size();
+
+            for (int i = 0; i < neighborsCount; i++) {
                 Edge<T> edge = neighbors.get(i);
                 T neighbor = edge.destination;
 
@@ -79,6 +78,10 @@ public class DijkstraSolver {
                     unvisited.enqueue(neighbor, newCost);
                 }
             }
+
+            // Paso 4: Marcar como visitado
+            visited.add(current);
+
         }
 
         return result;

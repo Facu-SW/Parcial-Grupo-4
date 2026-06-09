@@ -40,7 +40,7 @@ public class Main {
         System.out.println("Nodo inicio: " + startNode);
         System.out.println();
 
-        SimpleDictionary<Character, Edge<Character>> result = DijkstraSolver.dijkstra(startNode, graph);
+        SimpleDictionary<Character, Edge<Character>> result = DijkstraSolver.dijkstraAllNodes(startNode, graph);
 
         // Imprimir tabla de resultados
         System.out.println("=== Tabla de Distancias ===");
