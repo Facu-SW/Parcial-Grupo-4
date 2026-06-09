@@ -1,7 +1,5 @@
-package DijkstraExercise;
+package graphModule;
 
-import graphModule.Graph;
-import graphModule.Edge;
 import dictionaryModule.SimpleDictionary;
 import dictionaryModule.SimpleArrayDictionary;
 import listModule.SimpleList;
@@ -87,44 +85,4 @@ public class DijkstraSolver {
         return result;
     }
 
-    /**
-     * Reconstruye el camino más corto desde el nodo origen hasta un nodo destino.
-     * Usa el resultado de Dijkstra para recorrer los previos.
-     */
-    public static <T> void printPath(T destination, T origin, SimpleDictionary<T, Edge<T>> result) {
-        if (!result.containsKey(destination)) {
-            System.out.println("No existe camino a " + destination);
-            return;
-        }
-
-        // Reconstruir camino siguiendo los previos
-        String path = destination.toString();
-        T current = destination;
-        int totalCost = result.get(destination).weight;
-
-        while (!current.equals(origin)) {
-            Edge<T> info = result.get(current);
-            current = info.destination;
-            path = current.toString() + " -> " + path;
-        }
-
-        System.out.println("Camino: " + path + " | Costo total: " + totalCost);
-    }
-
-    /**
-     * Imprime la tabla completa de resultados de Dijkstra.
-     */
-    public static <T> void printTable(SimpleDictionary<T, Edge<T>> result) {
-        System.out.println("Nodo\t| Costo\t| Previo");
-        System.out.println("--------|-------|-------");
-
-        SimpleList<T> keys = result.keys();
-        for (int i = 0; i < keys.size(); i++) {
-            T node = keys.get(i);
-            Edge<T> info = result.get(node);
-            String previous = node.equals(info.destination) ? "null (origen)" : info.destination.toString();
-            String cost = info.weight == Integer.MAX_VALUE ? "INF" : String.valueOf(info.weight);
-            System.out.println(node + "\t| " + cost + "\t| " + previous);
-        }
-    }
 }
