@@ -4,6 +4,7 @@ import graphModule.Graph;
 import graphModule.Edge;
 import dictionaryModule.SimpleDictionary;
 import dictionaryModule.SimpleArrayDictionary;
+import listModule.SimpleList;
 import setModule.SimpleSet;
 import setModule.SimpleArraySet;
 import priorityQueueModule.PriorityQueueLinked;
@@ -27,16 +28,16 @@ public class DijkstraSolver {
         SimpleSet<T> visited = new SimpleArraySet<>();
 
         // Obtener todos los vertices del grafo
-        T[] vertices = graph.vertex();
+        SimpleList<T> vertices = graph.vertex();
 
         // Paso 1: Asignar valores iniciales
         // Para el nodo inicial: distancia 0, previo null
         // Para los demás: distancia infinita (Integer.MAX_VALUE), previo null
-        for (int i = 0; i < vertices.length; i++) {
-            if (vertices[i].equals(start)) {
-                result.put(vertices[i], new Edge<T>(vertices[i], 0));
+        for (int i = 0; i < vertices.size(); i++) {
+            if (vertices.get(i).equals(start)) {
+                result.put(vertices.get(i), new Edge<T>(vertices.get(i), 0));
             } else {
-                result.put(vertices[i], new Edge<T>(vertices[i], Integer.MAX_VALUE));
+                result.put(vertices.get(i), new Edge<T>(vertices.get(i), Integer.MAX_VALUE));
             }
         }
 
@@ -57,19 +58,17 @@ public class DijkstraSolver {
             // Obtener el costo total del nodo actual
             int currentCost = result.get(current).weight;
 
-            // Paso 3: Actualizar valores de los vecinos
-            for (int i = 0; i < vertices.length; i++) {
-                T neighbor = vertices[i];
-
-                // Verificar si hay arista del actual al vecino
-                if (!graph.containsEdge(current, neighbor)) continue;
+            // Paso 3: Actualizar valores de los vecinos usando getNeighbors
+            SimpleList<Edge<T>> neighbors = graph.getNeighbors(current);
+            for (int i = 0; i < neighbors.size(); i++) {
+                Edge<T> edge = neighbors.get(i);
+                T neighbor = edge.destination;
 
                 // Si el vecino ya fue visitado, lo saltamos
                 if (visited.contains(neighbor)) continue;
 
                 // Calcular nuevo costo: costo actual + peso de la arista
-                int edgeWeight = graph.getWeight(current, neighbor);
-                int newCost = currentCost + edgeWeight;
+                int newCost = currentCost + edge.weight;
 
                 // Si el nuevo costo es menor al costo actual del vecino, actualizar
                 int neighborCost = result.get(neighbor).weight;
@@ -116,10 +115,9 @@ public class DijkstraSolver {
         System.out.println("Nodo\t| Costo\t| Previo");
         System.out.println("--------|-------|-------");
 
-        Object[] keys = result.keys();
-        for (int i = 0; i < keys.length; i++) {
-            @SuppressWarnings("unchecked")
-            T node = (T) keys[i];
+        SimpleList<T> keys = result.keys();
+        for (int i = 0; i < keys.size(); i++) {
+            T node = keys.get(i);
             Edge<T> info = result.get(node);
             String previous = node.equals(info.destination) ? "null (origen)" : info.destination.toString();
             String cost = info.weight == Integer.MAX_VALUE ? "INF" : String.valueOf(info.weight);
