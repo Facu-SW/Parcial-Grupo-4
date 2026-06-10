@@ -1,5 +1,8 @@
 package dictionaryModule;
 
+import listModule.SimpleList;
+import listModule.SimpleLinkedList;
+
 /**
  * Implementación con array desordenado.
  * El orden de las keys no está garantizado.
@@ -83,11 +86,14 @@ public class SimpleArrayDictionary<K, V> implements SimpleDictionary<K, V> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public K[] keys() {
-        Object[] result = new Object[size];
-        for (int i = 0; i < size; i++) result[i] = keys[i];
-        return (K[]) result;
+    public SimpleList<K> keys() {
+        SimpleList<K> result = new SimpleLinkedList<>();
+        for (int i = 0; i < size; i++) {
+            @SuppressWarnings("unchecked")
+            K key = (K) keys[i];
+            result.add(key);
+        }
+        return result;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package dictionaryModule;
 
+import listModule.SimpleList;
+
 public interface SimpleDictionary<K, V> {
     // Agrega el par (key, value). Si key ya existe, reemplaza value y devuelve el anterior.
     // Si no existe, agrega el par y devuelve null.
@@ -18,8 +20,8 @@ public interface SimpleDictionary<K, V> {
     // Lanza NullPointerException si key es null.
     boolean containsKey(K key);
 
-    // Devuelve un array con todas las keys del diccionario.
-    K[] keys();
+    // Devuelve una lista con todas las keys del diccionario.
+    SimpleList<K> keys();
 
     // Devuelve un array con todos los values del diccionario.
     V[] values();

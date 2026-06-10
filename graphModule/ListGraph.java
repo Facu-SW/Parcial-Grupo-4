@@ -12,7 +12,7 @@ public class ListGraph<T> implements Graph<T> {
         adjacencyList = new SimpleArrayDictionary<T, SimpleList<Edge<T>>>();
     }
 
-    public T[] vertex() { return adjacencyList.keys(); }
+    public SimpleList<T> vertex() { return adjacencyList.keys(); }
 
     public boolean addVertex(T vertex) {
         if (containsVertex(vertex)) return false;
@@ -25,11 +25,11 @@ public class ListGraph<T> implements Graph<T> {
         if(!containsVertex(vertex)) return false;
         adjacencyList.remove(vertex);
         // Guardamos todos los vertices
-        T[] vertices = vertex();
+        SimpleList<T> vertices = vertex();
         // Para cada uno, intentamos remover el edge de ese vertice al vertice a eliminar. 
         // Si el edge no existe, removeEdge devuelve false pero no nos importa porque lo que queremos es eliminar el edge si existe
-        for(int i = 0; i < vertices.length; i++)
-            removeEdge(vertices[i], vertex);
+        for(int i = 0; i < vertices.size(); i++)
+            removeEdge(vertices.get(i), vertex);
         return true;
     }
 
@@ -90,5 +90,9 @@ public class ListGraph<T> implements Graph<T> {
             if(edges.get(i).destination.equals(to)) return edges.get(i);
         //Si llegamos hasta aca no está el edge
         return null;
+    }
+
+    public SimpleList<Edge<T>> getNeighbors(T vertex) {
+        return adjacencyList.get(vertex);
     }
 }

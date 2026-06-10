@@ -1,5 +1,8 @@
 package dictionaryModule;
 
+import listModule.SimpleList;
+import listModule.SimpleLinkedList;
+
 /**
  * Implementación con lista simplemente enlazada.
  * El orden de las keys no está garantizado.
@@ -93,15 +96,14 @@ public class SimpleLinkedDictionary<K, V> implements SimpleDictionary<K, V> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public K[] keys() {
-        Object[] result = new Object[size];
+    public SimpleList<K> keys() {
+        SimpleList<K> result = new SimpleLinkedList<>();
         DictionaryNode<K, V> current = first;
-        for (int i = 0; i < size; i++) {
-            result[i] = current.key;
-            current   = current.next;
+        while (current != null) {
+            result.add(current.key);
+            current = current.next;
         }
-        return (K[]) result;
+        return result;
     }
 
     @Override

@@ -1,3 +1,5 @@
+package priorityQueueModule;
+
 public class PriorityQueueLinked<E> implements PriorityQueue<E> {
 
     private class Node {
